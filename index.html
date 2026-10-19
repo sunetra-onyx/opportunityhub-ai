@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpportunityHub AI | Opportunities for Indian College Students</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            royal: {
+              50: '#f5f0ff',
+              100: '#ede4ff',
+              200: '#dccaff',
+              300: '#c3a3ff',
+              500: '#8e4cf6',
+              700: '#5b1fc9',
+              800: '#43129e',
+              900: '#2b096b',
+              950: '#1a0444'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fbfbfe;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-track {
+      background: #f1f1f5;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- ================= TOP HEADER / NAVBAR ================= -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-royal-100 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center space-x-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-royal-950 via-royal-800 to-royal-700 flex items-center justify-center text-white font-extrabold text-xl shadow-md">
+          Ω
+        </div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <h1 class="text-lg sm:text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-royal-950 via-royal-800 to-royal-500">
+              OpportunityHub AI
+            </h1>
+            <span class="text-[10px] bg-royal-100 text-royal-800 font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">
+              India
+            </span>
+          </div>
+          <p class="text-[11px] text-slate-500 font-medium hidden sm:block">
+            Empowering Indian Undergraduates with Verified Portals & Smart AI Guidance
+          </p>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <button
+          id="btnToggleApiKey"
+          class="text-xs px-3 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5 border-slate-300 bg-white text-slate-700 hover:bg-slate-50"
+        >
+          <span id="keyStatusDot" class="w-2 h-2 rounded-full bg-slate-400"></span>
+          <span id="keyStatusText" class="hidden sm:inline">Gemini API Key</span>
+        </button>
+
+        <button
+          id="btnOpenSaarthiGlobal"
+          class="bg-royal-900 hover:bg-royal-800 text-white text-xs sm:text-sm font-semibold px-4 py-2 rounded-xl shadow-sm transition flex items-center space-x-1.5"
+        >
+          <span>✨</span>
+          <span>Saarthi AI</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= GEMINI API KEY CONFIG DRAWER ================= -->
+  <div id="apiKeyDrawer" class="hidden bg-royal-50 border-b border-royal-200 px-4 py-3">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-3">
+      <div class="flex-1 text-xs text-royal-950">
+        <p class="font-bold">Google AI Studio (Gemini) Integration:</p>
+        <p class="text-slate-600 text-[11px]">
+          Your API key is stored <strong>only in your browser's local memory (localStorage)</strong>. It is never transmitted anywhere else. If left empty, Saarthi AI will run in intelligent offline simulation mode.
+        </p>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-auto">
+        <input
+          type="password"
+          id="apiKeyInput"
+          placeholder="Paste AIzaSy... key"
+          class="text-xs px-3 py-1.5 border border-royal-300 rounded-lg w-full sm:w-56 focus:outline-none focus:ring-2 focus:ring-royal-500 bg-white"
+        />
+        <button
+          id="btnSaveApiKey"
+          class="bg-royal-800 hover:bg-royal-900 text-white text-xs px-3.5 py-1.5 rounded-lg font-semibold"
+        >
+          Save
+        </button>
+        <button
+          id="btnClearApiKey"
+          class="text-xs text-red-600 hover:underline px-2 hidden"
+        >
+          Remove
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= MAIN CONTAINER ================= -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex-1 w-full space-y-6">
+
+    <!-- STUDENT PROFILE FORM CARD -->
+    <section class="bg-white rounded-2xl border border-royal-100 shadow-sm p-4 sm:p-5">
+      <div class="flex items-center justify-between mb-3 border-b border-slate-100 pb-2">
+        <div class="flex items-center space-x-2">
+          <span class="text-xl">🎓</span>
+          <h2 class="text-sm font-bold text-royal-950 uppercase tracking-wide">
+            Your College Profile
+          </h2>
+        </div>
+        <span class="text-[11px] font-medium text-slate-500">
+          Personalize opportunity matches & AI advice
+        </span>
+      </div>
+
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
+        <!-- Degree -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1" for="selectDegree">Degree</label>
+          <select
+            id="selectDegree"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal-500"
+          >
+            <option value="BTech">B.Tech / B.E.</option>
+            <option value="BSc">B.Sc / BCA</option>
+            <option value="BCom">B.Com / BBA</option>
+            <option value="Diploma">Diploma / Polytechnic</option>
+            <option value="Other">Other Undergraduate</option>
+          </select>
+        </div>
+
+        <!-- Year of Study -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1" for="selectYear">Year of Study</label>
+          <select
+            id="selectYear"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal-500"
+          >
+            <option value="1st Year">1st Year (Freshman)</option>
+            <option value="2nd Year">2nd Year</option>
+            <option value="3rd Year">3rd Year</option>
+            <option value="Final Year">4th / Final Year</option>
+          </select>
+        </div>
+
+        <!-- Field of Interest -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1" for="selectField">Field of Interest</label>
+          <select
+            id="selectField"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal-500"
+          >
+            <option value="Computer Science & IT">Computer Science & IT</option>
+            <option value="Electronics & AI">Electronics & AI</option>
+            <option value="Core Engineering">Core Engineering (Mech/Civil)</option>
+            <option value="Commerce & Finance">Commerce & Finance</option>
+            <option value="Basic & Applied Sciences">Basic & Applied Sciences</option>
+          </select>
+        </div>
+
+        <!-- Indian State -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-500 mb-1" for="selectState">State</label>
+          <select
+            id="selectState"
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs sm:text-sm font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-royal-500"
+          >
+            <!-- Populated via JavaScript -->
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION TABS -->
+    <div class="flex border-b border-slate-200 space-x-6 text-sm font-bold">
+      <button
+        id="tabBtnOpportunities"
+        class="pb-3 text-royal-900 border-b-2 border-royal-700 transition flex items-center space-x-2"
+      >
+        <span>Discover Opportunities</span>
+        <span id="opportunityCountBadge" class="px-2 py-0.5 text-[11px] rounded-full bg-royal-100 text-royal-800 font-semibold">
+          6
+        </span>
+      </button>
+
+      <button
+        id="tabBtnPortals"
+        class="pb-3 text-slate-500 hover:text-slate-800 transition flex items-center space-x-2"
+      >
+        <span>Official Govt. Portals</span>
+        <span class="px-2 py-0.5 text-[11px] rounded-full bg-emerald-100 text-emerald-800 font-semibold">
+          Verified
+        </span>
+      </button>
+    </div>
+
+    <!-- ================= VIEW 1: OPPORTUNITY DISCOVERY ================= -->
+    <div id="viewOpportunities" class="space-y-5">
+      
+      <!-- Filters and Search Toolbar -->
+      <div class="flex flex-col lg:flex-row gap-3 items-center justify-between">
+        <!-- Category Pills -->
+        <div class="flex flex-wrap gap-2 w-full lg:w-auto" id="categoryPillContainer">
+          <button data-category="All" class="cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-royal-900 text-white shadow-sm">All</button>
+          <button data-category="Scholarships" class="cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">Scholarships</button>
+          <button data-category="Internships" class="cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">Internships</button>
+          <button data-category="Competitions" class="cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">Competitions</button>
+          <button data-category="Courses" class="cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50">Courses & Certifications</button>
+        </div>
+
+        <!-- Search Bar and Profile Match Checkbox -->
+        <div class="flex items-center gap-3 w-full lg:w-auto justify-end">
+          <div class="relative w-full sm:w-64">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Search title, skills, agency..."
+              class="text-xs px-3 py-2 pl-8 bg-white border border-slate-200 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-royal-500 shadow-sm"
+            />
+            <span class="absolute left-2.5 top-2 text-xs text-slate-400">🔍</span>
+          </div>
+
+          <button
+            id="btnProfileMatchToggle"
+            class="text-xs px-3 py-2 rounded-xl font-semibold border flex items-center gap-1.5 whitespace-nowrap transition bg-white border-slate-200 text-slate-600 hover:bg-slate-50"
+          >
+            <span>🎯</span>
+            <span>Matches My Profile</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Opportunities Grid Container -->
+      <div id="opportunitiesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyStateBox" class="hidden bg-white rounded-2xl border border-slate-200 p-10 text-center space-y-3">
+        <div class="text-4xl">🔍</div>
+        <h3 class="text-base font-bold text-slate-800">No opportunities found</h3>
+        <p class="text-xs text-slate-500 max-w-sm mx-auto">
+          No entries matched your current search filters. Try unchecking "Matches My Profile" or choosing "All" categories.
+        </p>
+        <button
+          id="btnResetFilters"
+          class="text-xs font-semibold text-royal-700 underline hover:text-royal-900"
+        >
+          Reset all filters
+        </button>
+      </div>
+
+    </div>
+
+    <!-- ================= VIEW 2: OFFICIAL GOVT PORTALS ================= -->
+    <div id="viewPortals" class="hidden space-y-4">
+      <div class="bg-gradient-to-r from-royal-950 to-royal-800 text-white p-5 rounded-2xl shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h3 class="font-bold text-base">Direct Access to Verified Indian Government Portals</h3>
+          <p class="text-xs text-royal-200 mt-1 max-w-2xl">
+            Beware of unofficial third-party sites or scams that charge fees for scholarship applications. These primary central government and regulatory portals are completely free and authentic.
+          </p>
+        </div>
+        <span class="text-xs bg-emerald-500/20 text-emerald-300 font-semibold px-3 py-1 rounded-full border border-emerald-400/30 whitespace-nowrap">
+          ✓ 100% Genuine Sources
+        </span>
+      </div>
+
+      <div id="portalsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ================= SAARTHI AI ASSISTANT MODAL ================= -->
+  <div id="saarthiModal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-sm">
+    <div class="bg-white w-full max-w-xl rounded-3xl shadow-2xl border border-royal-200 overflow-hidden flex flex-col max-h-[85vh]">
+      
+      <!-- Modal Header -->
+      <div class="bg-royal-950 text-white p-4 flex items-center justify-between">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-8 h-8 rounded-full bg-royal-700 flex items-center justify-center text-sm font-bold shadow">
+            ✨
+          </div>
+          <div>
+            <h3 class="font-bold text-sm">Saarthi AI (सारथी)</h3>
+            <p id="saarthiContextTag" class="text-[10px] text-royal-200">
+              Personal College Mentor & Eligibility Advisor
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <!-- Language Selector -->
+          <select
+            id="saarthiLanguageSelect"
+            class="bg-royal-800 text-xs text-white rounded-lg px-2.5 py-1 border border-royal-700 focus:outline-none"
+          >
+            <option value="Hinglish">Hinglish</option>
+            <option value="English">English</option>
+            <option value="Hindi">हिन्दी (Hindi)</option>
+          </select>
+
+          <!-- Close Modal -->
+          <button
+            id="btnCloseSaarthi"
+            class="w-7 h-7 rounded-full bg-royal-800 hover:bg-royal-700 flex items-center justify-center text-xs text-white transition"
+          >
+            ✕
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Action Pill Buttons -->
+      <div class="bg-royal-50/80 p-2.5 border-b border-royal-100 flex items-center gap-2 overflow-x-auto text-[11px] custom-scroll">
+        <span class="font-bold text-royal-950 whitespace-nowrap">Suggested:</span>
+        <button id="quickAskEligibility" class="whitespace-nowrap px-2.5 py-1 bg-white hover:bg-royal-100 text-royal-800 border border-royal-200 rounded-full font-medium transition">
+          Am I eligible with my degree?
+        </button>
+        <button id="quickAskDocuments" class="whitespace-nowrap px-2.5 py-1 bg-white hover:bg-royal-100 text-royal-800 border border-royal-200 rounded-full font-medium transition">
+          What documents are required?
+        </button>
+      </div>
+
+      <!-- Message History Box -->
+      <div id="saarthiChatLog" class="p-4 overflow-y-auto flex-1 space-y-3 text-xs leading-relaxed bg-[#fdfcff] custom-scroll">
+        <!-- Messages rendered by JavaScript -->
+      </div>
+
+      <!-- Chat Input Field -->
+      <div class="p-3 bg-white border-t border-slate-200">
+        <form id="saarthiForm" class="flex gap-2">
+          <input
+            type="text"
+            id="saarthiInput"
+            placeholder="Ask Saarthi (e.g., 'Can a 1st year apply for this?')..."
+            class="flex-1 text-xs px-3 py-2 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-500"
+          />
+          <button
+            type="submit"
+            id="btnSaarthiSend"
+            class="bg-royal-900 hover:bg-royal-800 text-white font-bold text-xs px-4 py-2 rounded-xl transition flex items-center gap-1"
+          >
+            <span>Ask</span>
+          </button>
+        </form>
+        <div id="aiModeNotice" class="text-[10px] text-center mt-1.5 text-slate-400">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-white border-t border-slate-200 py-6 mt-12 text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-4 space-y-1">
+      <p class="font-bold text-slate-700">OpportunityHub AI — Made for Indian Students</p>
+      <p class="text-[11px] text-slate-400">
+        All sample opportunities are clearly labeled as DEMO DATA. Always confirm deadlines and criteria directly on the official application link or portal.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ================= JAVASCRIPT APPLICATION LOGIC ================= -->
+  <script>
+    // -------------------------------------------------------------
+    // DATA SOURCE: VERIFIED GOVERNMENT PORTALS
+    // -------------------------------------------------------------
+    const OFFICIAL_PORTALS = [
+      {
+        name: "National Scholarship Portal (NSP)",
+        desc: "Single-window central portal for Central, State, and UGC/AICTE scholarship schemes.",
+        url: "https://scholarships.gov.in",
+        authority: "Ministry of Electronics & IT / MoE",
+        tag: "Scholarships"
+      },
+      {
+        name: "AICTE Internship Portal",
+        desc: "Facilitates internships in govt ministries, municipalities (TULIP), and verified corporates.",
+        url: "https://internship.aicte-india.org",
+        authority: "AICTE (Govt. of India)",
+        tag: "Internships"
+      },
+      {
+        name: "SWAYAM & NPTEL",
+        desc: "Free online courses created by IITs, IISc, and IIMs with college credit transfer options.",
+        url: "https://swayam.gov.in",
+        authority: "Ministry of Education",
+        tag: "Courses & Credits"
+      },
+      {
+        name: "Startup India Hub",
+        desc: "Innovation challenges, national hackathons, seed funds, and incubator support for students.",
+        url: "https://www.startupindia.gov.in",
+        authority: "DPIIT (Ministry of Commerce)",
+        tag: "Competitions & Grants"
+      },
+      {
+        name: "Prime Minister's Research Fellowship (PMRF)",
+        desc: "Premier doctoral scholarship for talent from IITs, IISc, NITs, and central universities.",
+        url: "https://www.pmrf.in",
+        authority: "Ministry of Education",
+        tag: "Fellowships"
+      }
+    ];
+
+    // -------------------------------------------------------------
+    // DATA SOURCE: OPPORTUNITIES (DEMO & VERIFIED)
+    // -------------------------------------------------------------
+    const OPPORTUNITIES_DATABASE = [
+      {
+        id: "demo-1",
+        isDemo: true,
+        title: "National Tech Merit Scholarship 2026",
+        category: "Scholarships",
+        provider: "National Innovation Council (Illustrative)",
+        degreeEligibility: ["BTech", "BSc"],
+        yearEligibility: ["1st Year", "2nd Year"],
+        states: ["All India"],
+        deadline: "2026-11-30",
+        benefits: "₹50,000 / year tuition allowance",
+        eligibilityDetails: "75%+ in 12th Board; Family income below ₹6 Lakhs/year; Full-time enrolled.",
+        verifiedUrl: null,
+        note: "Sample entry to demonstrate scholarship matching."
+      },
+      {
+        id: "demo-2",
+        isDemo: true,
+        title: "Undergraduate Summer Research Internship",
+        category: "Internships",
+        provider: "Applied Computing Labs (Illustrative)",
+        degreeEligibility: ["BTech", "BSc", "Other"],
+        yearEligibility: ["2nd Year", "3rd Year", "Final Year"],
+        states: ["Remote", "Maharashtra", "Karnataka", "Delhi NCR"],
+        deadline: "2026-12-15",
+        benefits: "₹25,000 / month stipend + certificate",
+        eligibilityDetails: "Good understanding of Python, C++, or Full-Stack Web Development.",
+        verifiedUrl: null,
+        note: "Sample entry to demonstrate technical internship discovery."
+      },
+      {
+        id: "demo-3",
+        isDemo: true,
+        title: "All-India Inter-College FinTech Hackathon",
+        category: "Competitions",
+        provider: "Digital Finance Alliance (Illustrative)",
+        degreeEligibility: ["BCom", "BTech", "BSc", "Other"],
+        yearEligibility: ["1st Year", "2nd Year", "3rd Year", "Final Year"],
+        states: ["All India"],
+        deadline: "2026-11-20",
+        benefits: "₹3,00,000 cash pool + mentorship",
+        eligibilityDetails: "Teams of 2-4 college students. Open to finance, business, and tech enthusiasts.",
+        verifiedUrl: null,
+        note: "Sample entry to demonstrate hackathon discovery."
+      },
+      {
+        id: "demo-4",
+        isDemo: true,
+        title: "Cloud Architecture Certification Voucher Program",
+        category: "Courses",
+        provider: "Open Cloud Education (Illustrative)",
+        degreeEligibility: ["BTech", "BSc", "Diploma"],
+        yearEligibility: ["2nd Year", "3rd Year", "Final Year"],
+        states: ["All India"],
+        deadline: "2026-12-05",
+        benefits: "Free 100% exam voucher + hands-on labs",
+        eligibilityDetails: "Must finish the designated 25-hour self-paced cloud track.",
+        verifiedUrl: null,
+        note: "Sample entry to demonstrate certification vouchers."
+      },
+      {
+        id: "verified-1",
+        isDemo: false,
+        title: "The Urban Learning Internship Program (TULIP)",
+        category: "Internships",
+        provider: "MoHUA & AICTE (Official Govt. Portal)",
+        degreeEligibility: ["BTech", "BSc", "BCom", "Diploma", "Other"],
+        yearEligibility: ["1st Year", "2nd Year", "3rd Year", "Final Year"],
+        states: ["All India"],
+        deadline: "Rolling / Continuous Intake",
+        benefits: "Stipend (as per municipal corp) + Certificate",
+        eligibilityDetails: "Indian students enrolled in recognised universities or fresh graduates.",
+        verifiedUrl: "https://internship.aicte-india.org",
+        note: "Verified opportunity hosted on AICTE portal."
+      },
+      {
+        id: "verified-2",
+        isDemo: false,
+        title: "Central Sector Scheme of Scholarships for College Students",
+        category: "Scholarships",
+        provider: "Dept. of Higher Education (NSP)",
+        degreeEligibility: ["BTech", "BSc", "BCom", "Other"],
+        yearEligibility: ["1st Year"],
+        states: ["All India"],
+        deadline: "Check NSP Portal for active schedule",
+        benefits: "₹12,000 / year for UG courses",
+        eligibilityDetails: "Above 80th percentile in relevant stream in 12th standard; family income <= ₹4.5 LPA.",
+        verifiedUrl: "https://scholarships.gov.in",
+        note: "Verified Government of India scholarship."
+      }
+    ];
+
+    const INDIAN_STATES = [
+      "All India", "Andhra Pradesh", "Assam", "Bihar", "Delhi NCR",
+      "Gujarat", "Haryana", "Karnataka", "Kerala", "Madhya Pradesh",
+      "Maharashtra", "Odisha", "Punjab", "Rajasthan", "Tamil Nadu",
+      "Telangana", "Uttar Pradesh", "West Bengal", "Other"
+    ];
+
+    // -------------------------------------------------------------
+    // APPLICATION STATE
+    // -------------------------------------------------------------
+    const state = {
+      profile: {
+        degree: "BTech",
+        year: "1st Year",
+        field: "Computer Science & IT",
+        state: "Maharashtra"
+      },
+      searchQuery: "",
+      selectedCategory: "All",
+      profileMatchOnly: false,
+      activeTab: "opportunities", // 'opportunities' | 'portals'
+      selectedOpportunityForAi: OPPORTUNITIES_DATABASE[0],
+      aiLanguage: "Hinglish",
+      geminiApiKey: localStorage.getItem("opportunityhub_gemini_key") || "",
+      chatHistory: []
+    };
+
+    // -------------------------------------------------------------
+    // DOM ELEMENTS
+    // -------------------------------------------------------------
+    const selectDegree = document.getElementById("selectDegree");
+    const selectYear = document.getElementById("selectYear");
+    const selectField = document.getElementById("selectField");
+    const selectState = document.getElementById("selectState");
+    const searchInput = document.getElementById("searchInput");
+    const btnProfileMatchToggle = document.getElementById("btnProfileMatchToggle");
+    const categoryPillContainer = document.getElementById("categoryPillContainer");
+    const opportunitiesGrid = document.getElementById("opportunitiesGrid");
+    const emptyStateBox = document.getElementById("emptyStateBox");
+    const btnResetFilters = document.getElementById("btnResetFilters");
+    const tabBtnOpportunities = document.getElementById("tabBtnOpportunities");
+    const tabBtnPortals = document.getElementById("tabBtnPortals");
+    const viewOpportunities = document.getElementById("viewOpportunities");
+    const viewPortals = document.getElementById("viewPortals");
+    const portalsGrid = document.getElementById("portalsGrid");
+    const opportunityCountBadge = document.getElementById("opportunityCountBadge");
+
+    // AI Drawer & Modal Elements
+    const btnToggleApiKey = document.getElementById("btnToggleApiKey");
+    const apiKeyDrawer = document.getElementById("apiKeyDrawer");
+    const apiKeyInput = document.getElementById("apiKeyInput");
+    const btnSaveApiKey = document.getElementById("btnSaveApiKey");
+    const btnClearApiKey = document.getElementById("btnClearApiKey");
+    const keyStatusDot = document.getElementById("keyStatusDot");
+    const keyStatusText = document.getElementById("keyStatusText");
+
+    const saarthiModal = document.getElementById("saarthiModal");
+    const btnOpenSaarthiGlobal = document.getElementById("btnOpenSaarthiGlobal");
+    const btnCloseSaarthi = document.getElementById("btnCloseSaarthi");
+    const saarthiContextTag = document.getElementById("saarthiContextTag");
+    const saarthiLanguageSelect = document.getElementById("saarthiLanguageSelect");
+    const saarthiChatLog = document.getElementById("saarthiChatLog");
+    const saarthiForm = document.getElementById("saarthiForm");
+    const saarthiInput = document.getElementById("saarthiInput");
+    const btnSaarthiSend = document.getElementById("btnSaarthiSend");
+    const aiModeNotice = document.getElementById("aiModeNotice");
+    const quickAskEligibility = document.getElementById("quickAskEligibility");
+    const quickAskDocuments = document.getElementById("quickAskDocuments");
+
+    // -------------------------------------------------------------
+    // INITIALIZATION
+    // -------------------------------------------------------------
+    function init() {
+      // 1. Populate Indian States dropdown
+      INDIAN_STATES.forEach(st => {
+        const opt = document.createElement("option");
+        opt.value = st;
+        opt.textContent = st;
+        if (st === state.profile.state) opt.selected = true;
+        selectState.appendChild(opt);
+      });
+
+      // 2. Set profile defaults in inputs
+      selectDegree.value = state.profile.degree;
+      selectYear.value = state.profile.year;
+      selectField.value = state.profile.field;
+
+      // 3. Update API key UI
+      updateApiKeyUI();
+
+      // 4. Render initial data
+      renderOpportunities();
+      renderPortals();
+
+      // 5. Setup initial Saarthi chat welcome
+      resetSaarthiChat();
+
+      // 6. Bind Event Listeners
+      bindEvents();
+    }
+
+    // -------------------------------------------------------------
+    // RENDERING LOGIC
+    // -------------------------------------------------------------
+    function renderOpportunities() {
+      const filtered = OPPORTUNITIES_DATABASE.filter(item => {
+        // Category check
+        const matchesCategory = state.selectedCategory === "All" || item.category === state.selectedCategory;
+
+        // Search check
+        const q = state.searchQuery.toLowerCase();
+        const matchesSearch = 
+          item.title.toLowerCase().includes(q) ||
+          item.provider.toLowerCase().includes(q) ||
+          item.eligibilityDetails.toLowerCase().includes(q);
+
+        if (!matchesCategory || !matchesSearch) return false;
+
+        // Profile match toggle check
+        if (state.profileMatchOnly) {
+          const matchDegree = item.degreeEligibility.includes(state.profile.degree) || item.degreeEligibility.includes("Other");
+          const matchYear = item.yearEligibility.includes(state.profile.year);
+          const matchState = item.states.includes("All India") || item.states.includes(state.profile.state);
+          return matchDegree && matchYear && matchState;
+        }
+
+        return true;
+      });
+
+      // Update count badge
+      opportunityCountBadge.textContent = filtered.length;
+
+      // Check empty state
+      if (filtered.length === 0) {
+        opportunitiesGrid.innerHTML = "";
+        emptyStateBox.classList.remove("hidden");
+        return;
+      }
+
+      emptyStateBox.classList.add("hidden");
+
+      // Generate HTML for cards
+      opportunitiesGrid.innerHTML = filtered.map(item => `
+        <div class="bg-white rounded-2xl border border-slate-200 hover:border-royal-300 hover:shadow-md transition-all flex flex-col justify-between overflow-hidden group">
+          <div class="p-5">
+            <!-- Top Badges -->
+            <div class="flex items-center justify-between text-[11px] mb-3">
+              <span class="px-2.5 py-0.5 rounded-full font-bold bg-royal-50 text-royal-700 border border-royal-200">
+                ${item.category}
+              </span>
+
+              ${item.isDemo ? `
+                <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-300 font-extrabold flex items-center gap-1" title="Illustrative sample data for testing">
+                  ⚠️ DEMO DATA
+                </span>
+              ` : `
+                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-300 font-extrabold flex items-center gap-1">
+                  ✓ VERIFIED SOURCE
+                </span>
+              `}
+            </div>
+
+            <!-- Title & Provider -->
+            <h3 class="font-bold text-slate-900 group-hover:text-royal-800 transition text-sm leading-snug line-clamp-2">
+              ${item.title}
+            </h3>
+            <p class="text-xs text-slate-500 mt-1">${item.provider}</p>
+
+            <!-- Benefits / Award Banner -->
+            <div class="my-3 px-3 py-2 bg-royal-50/60 border border-royal-100 rounded-xl">
+              <div class="text-[10px] font-bold text-slate-500 uppercase">Benefits / Award</div>
+              <div class="text-xs font-bold text-royal-800">${item.benefits}</div>
+            </div>
+
+            <!-- Details -->
+            <div class="text-xs space-y-1.5 text-slate-600">
+              <p><strong class="text-slate-700">Eligibility:</strong> ${item.eligibilityDetails}</p>
+              <p><strong class="text-slate-700">Eligible:</strong> ${item.degreeEligibility.join(", ")} (${item.yearEligibility.join(", ")})</p>
+              <p><strong class="text-slate-700">Deadline:</strong> <span class="font-semibold text-amber-700">${item.deadline}</span></p>
+            </div>
+          </div>
+
+          <!-- Bottom Card Buttons -->
+          <div class="p-4 pt-3 border-t border-slate-100 bg-slate-50/70 flex items-center gap-2">
+            ${item.verifiedUrl ? `
+              <a
+                href="${item.verifiedUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="flex-1 text-center bg-royal-800 hover:bg-royal-900 text-white text-xs font-bold py-2 px-3 rounded-xl transition shadow-sm"
+              >
+                Official Portal ↗
+              </a>
+            ` : `
+              <button
+                disabled
+                class="flex-1 bg-slate-200 text-slate-500 cursor-not-allowed text-xs font-bold py-2 px-3 rounded-xl"
+                title="Official URL is not attached to demo records"
+              >
+                Demo Entry
+              </button>
+            `}
+
+            <button
+              onclick="openSaarthiForOpportunity('${item.id}')"
+              class="px-3 py-2 text-xs font-bold text-royal-900 border border-royal-200 bg-white hover:bg-royal-100 rounded-xl transition flex items-center gap-1 shadow-sm"
+            >
+              <span>✨ Ask AI</span>
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function renderPortals() {
+      portalsGrid.innerHTML = OFFICIAL_PORTALS.map(portal => `
+        <div class="bg-white rounded-2xl border border-slate-200 p-5 flex flex-col justify-between hover:shadow-sm transition">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-royal-700 bg-royal-50 px-2 py-0.5 rounded">
+                ${portal.tag}
+              </span>
+              <span class="text-[11px] font-semibold text-slate-500">
+                ${portal.authority}
+              </span>
+            </div>
+            <h4 class="font-bold text-slate-900 text-base">${portal.name}</h4>
+            <p class="text-xs text-slate-600 mt-1">${portal.desc}</p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between">
+            <span class="text-[11px] font-mono text-slate-400 truncate max-w-[200px]">
+              ${portal.url}
+            </span>
+            <a
+              href="${portal.url}"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="bg-royal-800 hover:bg-royal-900 text-white text-xs font-bold px-3.5 py-1.5 rounded-xl transition flex items-center gap-1"
+            >
+              <span>Visit Portal</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // -------------------------------------------------------------
+    // API KEY MANAGEMENT
+    // -------------------------------------------------------------
+    function updateApiKeyUI() {
+      if (state.geminiApiKey) {
+        keyStatusDot.className = "w-2 h-2 rounded-full bg-emerald-500";
+        keyStatusText.textContent = "Gemini Key Active";
+        btnToggleApiKey.className = "text-xs px-3 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5 border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100";
+        apiKeyInput.value = state.geminiApiKey;
+        btnClearApiKey.classList.remove("hidden");
+        aiModeNotice.textContent = "✓ Connected to Google Gemini 1.5 Flash API";
+        aiModeNotice.className = "text-[10px] text-center mt-1.5 text-emerald-700 font-medium";
+      } else {
+        keyStatusDot.className = "w-2 h-2 rounded-full bg-slate-400";
+        keyStatusText.textContent = "Set Gemini Key";
+        btnToggleApiKey.className = "text-xs px-3 py-1.5 rounded-xl border font-semibold transition flex items-center gap-1.5 border-slate-300 bg-white text-slate-700 hover:bg-slate-50";
+        apiKeyInput.value = "";
+        btnClearApiKey.classList.add("hidden");
+        aiModeNotice.textContent = "⚡ Running in Offline Smart Simulation Mode (Key not set)";
+        aiModeNotice.className = "text-[10px] text-center mt-1.5 text-amber-700 font-medium";
+      }
+    }
+
+    // -------------------------------------------------------------
+    // SAARTHI AI ASSISTANT LOGIC
+    // -------------------------------------------------------------
+    window.openSaarthiForOpportunity = function(id) {
+      const opp = OPPORTUNITIES_DATABASE.find(o => o.id === id);
+      if (opp) {
+        state.selectedOpportunityForAi = opp;
+      }
+      saarthiContextTag.textContent = `Targeting: ${state.selectedOpportunityForAi.title.slice(0, 35)}...`;
+      resetSaarthiChat();
+      saarthiModal.classList.remove("hidden");
+    };
+
+    function resetSaarthiChat() {
+      const opp = state.selectedOpportunityForAi;
+      const initialGreeting = state.aiLanguage === "Hindi"
+        ? `नमस्ते! मैं सारथी AI हूँ। मैं देख रहा हूँ कि आप "${opp.title}" देख रहे हैं। आप अपने ${state.profile.degree} (${state.profile.year}) के आधार पर पात्रता या आवश्यक दस्तावेजों के बारे में मुझसे पूछ सकते हैं।`
+        : state.aiLanguage === "Hinglish"
+        ? `Namaste! Main hoon Saarthi AI. Main dekh raha hoon aap "${opp.title}" explore kar rahe hain. Aapke **${state.profile.degree} (${state.profile.year})** profile ke mutaabiq mujhse kuch bhi pooch sakte hain!`
+        : `Hello! I am Saarthi AI. I see you are looking at "${opp.title}". Ask me any questions about your eligibility as a ${state.profile.degree} (${state.profile.year}) student!`;
+
+      state.chatHistory = [
+        { role: "assistant", text: initialGreeting }
+      ];
+      renderChatMessages();
+    }
+
+    function renderChatMessages() {
+      saarthiChatLog.innerHTML = state.chatHistory.map(msg => `
+        <div class="flex ${msg.role === "user" ? "justify-end" : "justify-start"}">
+          <div class="max-w-[85%] rounded-2xl p-3 shadow-sm whitespace-pre-line ${
+            msg.role === "user"
+              ? "bg-royal-800 text-white rounded-tr-none"
+              : "bg-white border border-slate-200 text-slate-800 rounded-tl-none"
+          }">
+            ${msg.text}
+          </div>
+        </div>
+      `).join("");
+      saarthiChatLog.scrollTop = saarthiChatLog.scrollHeight;
+    }
+
+    async function sendSaarthiMessage(userText) {
+      if (!userText.trim()) return;
+
+      // Add user message to log
+      state.chatHistory.push({ role: "user", text: userText });
+      renderChatMessages();
+
+      // Show temporary loading indicator
+      const loadingDiv = document.createElement("div");
+      loadingDiv.id = "aiLoadingItem";
+      loadingDiv.className = "flex justify-start";
+      loadingDiv.innerHTML = `
+        <div class="bg-white border border-royal-200 rounded-2xl rounded-tl-none p-3 text-xs text-royal-800 flex items-center gap-2 shadow-sm">
+          <span class="animate-spin">⏳</span>
+          <span>Saarthi is thinking in ${state.aiLanguage}...</span>
+        </div>
+      `;
+      saarthiChatLog.appendChild(loadingDiv);
+      saarthiChatLog.scrollTop = saarthiChatLog.scrollHeight;
+
+      btnSaarthiSend.disabled = true;
+
+      const opp = state.selectedOpportunityForAi;
+      const promptInstructions = `
+        You are Saarthi AI, a friendly Indian college mentor and academic advisor.
+        Current Student Profile:
+        - Degree: ${state.profile.degree}
+        - Year: ${state.profile.year}
+        - Field: ${state.profile.field}
+        - State: ${state.profile.state}
+
+        Target Opportunity details:
+        - Title: ${opp.title}
+        - Category: ${opp.category}
+        - Provider: ${opp.provider}
+        - Eligible Degrees: ${opp.degreeEligibility.join(", ")}
+        - Eligible Years: ${opp.yearEligibility.join(", ")}
+        - Criteria: ${opp.eligibilityDetails}
+        - Benefits: ${opp.benefits}
+        - Deadline: ${opp.deadline}
+        - Is Demo Data: ${opp.isDemo ? "Yes" : "No"}
+
+        Language required: ${state.aiLanguage}.
+        Tone: Empathetic, straightforward, encouraging, and accurate.
+        If Hinglish: Friendly Indian English blended with simple Hindi words.
+        If Hindi: Clear Devanagari Hindi.
+        If English: Clear Plain English.
+
+        Answer the student's question accurately based on the above opportunity. If they are ineligible, explain why kindly and suggest next steps.
+      `;
+
+      // Branch: Live Google Gemini API vs. Offline Fallback Simulation
+      if (state.geminiApiKey) {
+        try {
+          const response = await fetch(
+            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${state.geminiApiKey}`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [
+                  {
+                    role: "user",
+                    parts: [{ text: `${promptInstructions}\n\nStudent Question: ${userText}` }]
+                  }
+                ],
+                generationConfig: {
+                  temperature: 0.7,
+                  maxOutputTokens: 600
+                }
+              })
+            }
+          );
+
+          const result = await response.json();
+          if (result.error) {
+            throw new Error(result.error.message || "Gemini API rejected request");
+          }
+
+          const reply = result.candidates?.[0]?.content?.parts?.[0]?.text || "No response received. Please try again.";
+          removeLoadingItem();
+          state.chatHistory.push({ role: "assistant", text: reply });
+          renderChatMessages();
+        } catch (err) {
+          removeLoadingItem();
+          state.chatHistory.push({
+            role: "assistant",
+            text: `⚠️ **Connection Error**: ${err.message}. Please verify your Gemini API key in the top bar.`
+          });
+          renderChatMessages();
+        }
+      } else {
+        // Built-in intelligent offline simulator
+        setTimeout(() => {
+          removeLoadingItem();
+          let simulatedReply = "";
+
+          const isDegreeEligible = opp.degreeEligibility.includes(state.profile.degree) || opp.degreeEligibility.includes("Other");
+          const isYearEligible = opp.yearEligibility.includes(state.profile.year);
+
+          if (state.aiLanguage === "Hinglish") {
+            simulatedReply = `*(Offline Mentor Mode)*\n\n` +
+              `Aapka profile: **${state.profile.degree} (${state.profile.year})** from **${state.profile.state}**.\n\n` +
+              `📌 **Eligibility Verdict:** ${isDegreeEligible && isYearEligible ? '✅ Aap is opportunity ke basic criteria ko match karte hain!' : '⚠️ Aapki degree ya year of study is specific criteria se match nahi ho rahi.'}\n\n` +
+              `💡 **Key Requirement:** ${opp.eligibilityDetails}\n` +
+              `📅 **Deadline Notice:** ${opp.deadline}\n\n` +
+              `*(Tip: Agar real live AI reasoning chahiye, toh upar 'Gemini API Key' button dabakar apni free Google AI Studio key paste kar sakte hain!)*`;
+          } else if (state.aiLanguage === "Hindi") {
+            simulatedReply = `*(ऑफ़लाइन डेमो मोड)*\n\n` +
+              `आपका प्रोफ़ाइल: **${state.profile.degree} (${state.profile.year})**\n\n` +
+              `पात्रता स्थिति: ${isDegreeEligible && isYearEligible ? '✅ आप इसके लिए योग्य प्रतीत होते हैं।' : '⚠️ इस अवसर के नियम आपके वर्ष या डिग्री से मेल नहीं खाते।'}\n\n` +
+              `नियम: ${opp.eligibilityDetails}\nअंतिम तिथि: ${opp.deadline}`;
+          } else {
+            simulatedReply = `*(Offline Assistant Mode)*\n\n` +
+              `Your Profile: **${state.profile.degree} (${state.profile.year})** from **${state.profile.state}**.\n\n` +
+              `Eligibility Status: ${isDegreeEligible && isYearEligible ? '✅ You match the general eligibility criteria.' : '⚠️ You might not be eligible based on the current degree or study year requirement.'}\n\n` +
+              `Summary: ${opp.eligibilityDetails}\nDeadline: ${opp.deadline}\n\n` +
+              `*(Note: Connect your free Google AI Studio key in the top navbar for full real-time conversational responses!)*`;
+          }
+
+          state.chatHistory.push({ role: "assistant", text: simulatedReply });
+          renderChatMessages();
+        }, 700);
+      }
+
+      btnSaarthiSend.disabled = false;
+    }
+
+    function removeLoadingItem() {
+      const loader = document.getElementById("aiLoadingItem");
+      if (loader) loader.remove();
+    }
+
+    // -------------------------------------------------------------
+    // EVENT BINDINGS
+    // -------------------------------------------------------------
+    function bindEvents() {
+      // Profile changes
+      selectDegree.addEventListener("change", (e) => {
+        state.profile.degree = e.target.value;
+        if (state.profileMatchOnly) renderOpportunities();
+      });
+
+      selectYear.addEventListener("change", (e) => {
+        state.profile.year = e.target.value;
+        if (state.profileMatchOnly) renderOpportunities();
+      });
+
+      selectField.addEventListener("change", (e) => {
+        state.profile.field = e.target.value;
+      });
+
+      selectState.addEventListener("change", (e) => {
+        state.profile.state = e.target.value;
+        if (state.profileMatchOnly) renderOpportunities();
+      });
+
+      // Search input
+      searchInput.addEventListener("input", (e) => {
+        state.searchQuery = e.target.value;
+        renderOpportunities();
+      });
+
+      // Profile match toggle button
+      btnProfileMatchToggle.addEventListener("click", () => {
+        state.profileMatchOnly = !state.profileMatchOnly;
+        if (state.profileMatchOnly) {
+          btnProfileMatchToggle.className = "text-xs px-3 py-2 rounded-xl font-semibold border flex items-center gap-1.5 whitespace-nowrap transition bg-royal-100 border-royal-300 text-royal-900";
+        } else {
+          btnProfileMatchToggle.className = "text-xs px-3 py-2 rounded-xl font-semibold border flex items-center gap-1.5 whitespace-nowrap transition bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+        }
+        renderOpportunities();
+      });
+
+      // Category Pill selection
+      categoryPillContainer.addEventListener("click", (e) => {
+        const target = e.target.closest("button");
+        if (!target) return;
+        const cat = target.getAttribute("data-category");
+        state.selectedCategory = cat;
+
+        // Update active pill style
+        document.querySelectorAll(".cat-pill").forEach(p => {
+          p.className = "cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+        });
+        target.className = "cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-royal-900 text-white shadow-sm";
+
+        renderOpportunities();
+      });
+
+      // Reset filters button
+      btnResetFilters.addEventListener("click", () => {
+        state.searchQuery = "";
+        searchInput.value = "";
+        state.selectedCategory = "All";
+        state.profileMatchOnly = false;
+        btnProfileMatchToggle.className = "text-xs px-3 py-2 rounded-xl font-semibold border flex items-center gap-1.5 whitespace-nowrap transition bg-white border-slate-200 text-slate-600 hover:bg-slate-50";
+
+        document.querySelectorAll(".cat-pill").forEach(p => {
+          if (p.getAttribute("data-category") === "All") {
+            p.className = "cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-royal-900 text-white shadow-sm";
+          } else {
+            p.className = "cat-pill text-xs px-3 py-1.5 rounded-full font-semibold transition bg-white text-slate-600 border border-slate-200 hover:bg-slate-50";
+          }
+        });
+
+        renderOpportunities();
+      });
+
+      // Navigation Tabs
+      tabBtnOpportunities.addEventListener("click", () => {
+        state.activeTab = "opportunities";
+        tabBtnOpportunities.className = "pb-3 text-royal-900 border-b-2 border-royal-700 transition flex items-center space-x-2";
+        tabBtnPortals.className = "pb-3 text-slate-500 hover:text-slate-800 transition flex items-center space-x-2";
+        viewOpportunities.classList.remove("hidden");
+        viewPortals.classList.add("hidden");
+      });
+
+      tabBtnPortals.addEventListener("click", () => {
+        state.activeTab = "portals";
+        tabBtnPortals.className = "pb-3 text-royal-900 border-b-2 border-royal-700 transition flex items-center space-x-2";
+        tabBtnOpportunities.className = "pb-3 text-slate-500 hover:text-slate-800 transition flex items-center space-x-2";
+        viewPortals.classList.remove("hidden");
+        viewOpportunities.classList.add("hidden");
+      });
+
+      // API Key Drawer toggling & storage
+      btnToggleApiKey.addEventListener("click", () => {
+        apiKeyDrawer.classList.toggle("hidden");
+      });
+
+      btnSaveApiKey.addEventListener("click", () => {
+        const val = apiKeyInput.value.trim();
+        state.geminiApiKey = val;
+        localStorage.setItem("opportunityhub_gemini_key", val);
+        updateApiKeyUI();
+        apiKeyDrawer.classList.add("hidden");
+      });
+
+      btnClearApiKey.addEventListener("click", () => {
+        state.geminiApiKey = "";
+        localStorage.removeItem("opportunityhub_gemini_key");
+        updateApiKeyUI();
+        apiKeyDrawer.classList.add("hidden");
+      });
+
+      // Saarthi AI Modal actions
+      btnOpenSaarthiGlobal.addEventListener("click", () => {
+        state.selectedOpportunityForAi = OPPORTUNITIES_DATABASE[0];
+        saarthiContextTag.textContent = "General College Guidance";
+        resetSaarthiChat();
+        saarthiModal.classList.remove("hidden");
+      });
+
+      btnCloseSaarthi.addEventListener("click", () => {
+        saarthiModal.classList.add("hidden");
+      });
+
+      saarthiLanguageSelect.addEventListener("change", (e) => {
+        state.aiLanguage = e.target.value;
+        resetSaarthiChat();
+      });
+
+      saarthiForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = saarthiInput.value;
+        saarthiInput.value = "";
+        sendSaarthiMessage(text);
+      });
+
+      quickAskEligibility.addEventListener("click", () => {
+        sendSaarthiMessage(`Am I eligible with my degree ${state.profile.degree} (${state.profile.year})?`);
+      });
+
+      quickAskDocuments.addEventListener("click", () => {
+        sendSaarthiMessage("What general documents should I prepare to apply for this?");
+      });
+
+      // Close modal on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !saarthiModal.classList.contains("hidden")) {
+          saarthiModal.classList.add("hidden");
+        }
+      });
+    }
+
+    // Start App
+    init();
+  </script>
+</body>
+</html>
